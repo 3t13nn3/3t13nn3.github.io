@@ -86,8 +86,8 @@ class HomeView extends View {
         varying highp vec2 vTextureCoord;
 
         void main(void) {
-        gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-        vTextureCoord = aTextureCoord;
+            gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+            vTextureCoord = aTextureCoord;
         }
         `;
         
@@ -145,7 +145,7 @@ class HomeView extends View {
             const deltaTime = now - then;
             then = now;
 
-            this.drawScene(gl, programInfo, this.initBuffers(gl), deltaTime);
+            this.drawScene(gl, programInfo, this.initBuffers(gl), this.logoTexture, deltaTime);
 
             requestAnimationFrame(render);
         }
@@ -390,7 +390,7 @@ class HomeView extends View {
     }
 //image.crossOrigin = 'anonymous';
 
-      drawScene(gl, programInfo, buffers, deltaTime) {
+      drawScene(gl, programInfo, buffers, texture, deltaTime) {
 
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
         gl.clearColor(this.r, this.g, this.b, 1.0);  // Clear to black, fully opaque
@@ -437,8 +437,11 @@ class HomeView extends View {
         mat4.rotate(modelViewMatrix,  // destination matrix
                     modelViewMatrix,  // matrix to rotate
                     this.squareRotation,     // amount to rotate in radians
-                    [0, 1, 1]);
-
+                    [0, 0, 1]);       // axis to rotate around (Z)
+        mat4.rotate(modelViewMatrix,  // destination matrix
+                    modelViewMatrix,  // matrix to rotate
+                    this.squareRotation * .7,// amount to rotate in radians
+                    [0, 1, 0]);       // axis to rotate around (X)
 
         // Tell WebGL how to pull out the positions from the position
         // buffer into the vertexPosition attribute
@@ -460,24 +463,24 @@ class HomeView extends View {
                 programInfo.attribLocations.vertexPosition);
         }
 
-        // Tell WebGL how to pull out the colors from the color buffer
-        // into the vertexColor attribute.
+        // Tell WebGL how to pull out the texture coordinates from
+        // the texture coordinate buffer into the textureCoord attribute.
         {
-            const numComponents = 4;
+            const numComponents = 2;
             const type = gl.FLOAT;
             const normalize = false;
             const stride = 0;
             const offset = 0;
-            gl.bindBuffer(gl.ARRAY_BUFFER, buffers.color);
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffers.textureCoord);
             gl.vertexAttribPointer(
-                programInfo.attribLocations.vertexColor,
+                programInfo.attribLocations.textureCoord,
                 numComponents,
                 type,
                 normalize,
                 stride,
                 offset);
             gl.enableVertexAttribArray(
-                programInfo.attribLocations.vertexColor);
+                programInfo.attribLocations.textureCoord);
         }
 
         // Tell WebGL which indices to use to index the vertices
@@ -498,13 +501,23 @@ class HomeView extends View {
             false,
             modelViewMatrix);
 
+        // Specify the texture to map onto the faces.
+
+        // Tell WebGL we want to affect texture unit 0
+        gl.activeTexture(gl.TEXTURE0);
+
+        // Bind the texture to texture unit 0
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+
+        // Tell the shader we bound the texture to texture unit 0
+        gl.uniform1i(programInfo.uniformLocations.uSampler, 0);
+
         {
             const vertexCount = 36;
             const type = gl.UNSIGNED_SHORT;
             const offset = 0;
             gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
         }
-
 
 
         this.squareRotation += deltaTime;
