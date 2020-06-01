@@ -1,8 +1,5 @@
 window.addEventListener("load", event => new Home());
 
-function isPowerOf2(value) {
-    return (value & (value - 1)) == 0;
-  }
 
 class Home {
 
@@ -61,7 +58,7 @@ class HomeView extends View {
 
         this.canvas = document.createElement("canvas");
         document.body.appendChild(this.canvas);
-        
+
         console.log("Canvas: " + window.innerWidth + " " +  window.innerHeight);
         
 		const gl       = this.canvas.getContext("webgl");
@@ -86,8 +83,8 @@ class HomeView extends View {
         varying highp vec2 vTextureCoord;
 
         void main(void) {
-            gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-            vTextureCoord = aTextureCoord;
+        gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+        vTextureCoord = aTextureCoord;
         }
         `;
         
@@ -101,7 +98,7 @@ class HomeView extends View {
         }*/
 
         varying highp vec2 vTextureCoord;
-        
+
         uniform sampler2D uSampler;
 
         void main(void) {
@@ -130,12 +127,11 @@ class HomeView extends View {
               projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
               modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
               squareColor: gl.getUniformLocation(shaderProgram, 'color'),
-              uSampler: gl.getUniformLocation(shaderProgram, 'uSampler')
             },
           };
           
 
-          this.logoTexture = this.loadTexture(gl, 'https://avatars3.githubusercontent.com/u/45465151?s=460&u=4bee928c2f8b061013d86008e00b991069056f6e&v=4');
+          this.logoTexture = this.loadTexture(gl, "cubetexture.png");
 
           var then = 0;
 
@@ -146,7 +142,7 @@ class HomeView extends View {
             const deltaTime = now - then;
             then = now;
 
-            this.drawScene(gl, programInfo, this.initBuffers(gl), this.logoTexture, deltaTime);
+            this.drawScene(gl, programInfo, this.initBuffers(gl), deltaTime);
 
             requestAnimationFrame(render);
         }
@@ -208,6 +204,7 @@ class HomeView extends View {
     }
 
     initBuffers(gl) {
+                
         // Create a buffer for the cube's vertex positions.
 
         const positionBuffer = gl.createBuffer();
@@ -333,7 +330,8 @@ class HomeView extends View {
             textureCoord: textureCoordBuffer,
             indices: indexBuffer,
         };
-}
+        
+      }
 
       //
     // Initialize a texture and load an image.
@@ -361,7 +359,9 @@ class HomeView extends View {
                       pixel);
       
         const image = new Image();
+
         image.crossOrigin = 'anonymous';
+
         image.onload = function() {
           gl.bindTexture(gl.TEXTURE_2D, texture);
           gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
@@ -382,12 +382,12 @@ class HomeView extends View {
           }
         };
         image.src = url;
-        
+      
         return texture;
     }
 //image.crossOrigin = 'anonymous';
 
-    drawScene(gl, programInfo, buffers, texture, deltaTime) {
+      drawScene(gl, programInfo, buffers, deltaTime) {
 
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
         gl.clearColor(this.r, this.g, this.b, 1.0);  // Clear to black, fully opaque
@@ -457,24 +457,24 @@ class HomeView extends View {
                 programInfo.attribLocations.vertexPosition);
         }
 
-        // Tell WebGL how to pull out the texture coordinates from
-        // the texture coordinate buffer into the textureCoord attribute.
+        // Tell WebGL how to pull out the colors from the color buffer
+        // into the vertexColor attribute.
         {
-            const numComponents = 2;
+            const numComponents = 4;
             const type = gl.FLOAT;
             const normalize = false;
             const stride = 0;
             const offset = 0;
-            gl.bindBuffer(gl.ARRAY_BUFFER, buffers.textureCoord);
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffers.color);
             gl.vertexAttribPointer(
-                programInfo.attribLocations.textureCoord,
+                programInfo.attribLocations.vertexColor,
                 numComponents,
                 type,
                 normalize,
                 stride,
                 offset);
             gl.enableVertexAttribArray(
-                programInfo.attribLocations.textureCoord);
+                programInfo.attribLocations.vertexColor);
         }
 
         // Tell WebGL which indices to use to index the vertices
@@ -494,17 +494,6 @@ class HomeView extends View {
             programInfo.uniformLocations.modelViewMatrix,
             false,
             modelViewMatrix);
-
-        // Specify the texture to map onto the faces.
-
-        // Tell WebGL we want to affect texture unit 0
-        gl.activeTexture(gl.TEXTURE0);
-
-        // Bind the texture to texture unit 0
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-
-        // Tell the shader we bound the texture to texture unit 0
-        gl.uniform1i(programInfo.uniformLocations.uSampler, 0);
 
         {
             const vertexCount = 36;
