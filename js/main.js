@@ -100,13 +100,13 @@ class HomeView extends View {
             gl_FragColor = vec4(color, 1.0);
         }*/
 
-        /*varying highp vec2 vTextureCoord;
+        varying highp vec2 vTextureCoord;
         
         uniform sampler2D uSampler;
 
         void main(void) {
             gl_FragColor = texture2D(uSampler, vTextureCoord);
-        }*/
+        }
         `;
         
         if (gl === null) {
