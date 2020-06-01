@@ -138,7 +138,7 @@ class HomeView extends View {
 
         const buffers = this.initBuffers(gl);
 
-        const texture = this.loadTexture(gl, 'cubetexture.png');
+        const texture = this.loadTexture(gl, 'https://avatars3.githubusercontent.com/u/45465151?s=460&u=4bee928c2f8b061013d86008e00b991069056f6e&v=4');
 
         var then = 0;
 
@@ -367,6 +367,9 @@ class HomeView extends View {
             pixel);
 
         const image = new Image();
+
+        image.crossOrigin = 'anonymous';
+        
         image.onload = function () {
             gl.bindTexture(gl.TEXTURE_2D, texture);
             gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
