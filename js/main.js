@@ -120,7 +120,7 @@ class HomeView extends View {
         uniform mediump vec3 color;
 
         void main(void) {
-            gl_FragColor = texture2D(uSampler, vTextureCoord) * vec4(color, 0.90);
+            gl_FragColor = texture2D(uSampler, vTextureCoord) * vec4(color, 1.0);
         }
         `;
 
@@ -550,9 +550,9 @@ class HomeView extends View {
 
 
         /*Changement du fond*/
-        if (this.r > 0.25)
+        if (this.r > 0.50)
             this.rState = true
-        if (this.g > 0.25)
+        if (this.g > 0.50)
             this.gState = true
         if (this.b > 0.50)
             this.bState = true
