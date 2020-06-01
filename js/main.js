@@ -59,6 +59,28 @@ class HomeView extends View {
     async initialize(mvc) {
         super.initialize(mvc);
 
+        var newStyle = document.createElement('style');
+        newStyle.appendChild(document.createTextNode("\
+        @font-face {\
+            font-family: Mario;\
+            src: url('./font/Mario.TTF') \
+        }\
+        "));
+
+        document.head.appendChild(newStyle);
+
+        this.title = document.createElement("div")
+        this.title.innerHTML = "Etienne PENAULT"
+        this.title.style.textAlign = "center"
+        this.title.style.position = "absolute"
+        this.title.style.width = "100%"
+        this.title.style.top = "2.5%"
+        this.title.style.fontSize = "5vmax"
+        this.title.style.fontFamily = "Mario"
+        
+        this.title.style.backgroundColor = "rgba(76, 175, 80, 0.0)"
+        document.body.appendChild(this.title);
+
         this.canvas = document.createElement("canvas");
         document.body.appendChild(this.canvas);
 
@@ -92,20 +114,13 @@ class HomeView extends View {
         `;
 
         this.fs = `
-        /*//varying lowp vec4 vColor;
-        uniform mediump vec3 color;
-
-        void main(void) {
-            //gl_FragColor = vColor;
-            gl_FragColor = vec4(color, 1.0);
-        }*/
-
         varying highp vec2 vTextureCoord;
 
         uniform sampler2D uSampler;
+        uniform mediump vec3 color;
 
         void main(void) {
-        gl_FragColor = texture2D(uSampler, vTextureCoord);
+            gl_FragColor = texture2D(uSampler, vTextureCoord) * vec4(color, 0.90);
         }
         `;
 
@@ -130,7 +145,7 @@ class HomeView extends View {
             uniformLocations: {
                 projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
                 modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
-                //squareColor: gl.getUniformLocation(shaderProgram, 'color'),
+                squareColor: gl.getUniformLocation(shaderProgram, 'color'),
                 uSampler: gl.getUniformLocation(shaderProgram, 'uSampler'),
             },
         };
@@ -145,6 +160,7 @@ class HomeView extends View {
         // Draw the scene repeatedly
         let render = (now) => {
             this.onResize()
+            this.title.style.color = "rgb("+ this.b * 255 / 8 + "," + this.r * 255 / 8 + "," + this.g * 255 / 8 + ")"
             now *= 0.001;  // convert to seconds
             const deltaTime = now - then;
             then = now;
@@ -438,15 +454,20 @@ class HomeView extends View {
 
         mat4.translate(modelViewMatrix,     // destination matrix
             modelViewMatrix,     // matrix to translate
-            [-0.0, 0.0, -6.0]);  // amount to translate
+            [-0.0, 0.0, -8.0]);  // amount to translate
         mat4.rotate(modelViewMatrix,  // destination matrix
             modelViewMatrix,  // matrix to rotate
-            this.squareRotation,     // amount to rotate in radians
+            this.squareRotation / 1.5,     // amount to rotate in radians
             [0, 0, 1]);       // axis to rotate around (Z)
         mat4.rotate(modelViewMatrix,  // destination matrix
             modelViewMatrix,  // matrix to rotate
-            this.squareRotation * .7,// amount to rotate in radians
+            this.squareRotation / 1.5 * .512,// amount to rotate in radians
             [0, 1, 0]);       // axis to rotate around (X)
+            mat4.rotate(modelViewMatrix,  // destination matrix
+                modelViewMatrix,  // matrix to rotate
+                this.squareRotation / 1.5 * .247,// amount to rotate in radians
+                [1, 0, 0]);
+
 
         // Tell WebGL how to pull out the positions from the position
         // buffer into the vertexPosition attribute
@@ -525,7 +546,7 @@ class HomeView extends View {
         }
 
         this.squareRotation += deltaTime;
-        gl.uniform3f(programInfo.uniformLocations.squareColor, this.b / 1.5, this.r / 1.5, this.g / 1.5);
+        gl.uniform3f(programInfo.uniformLocations.squareColor, this.b, this.r, this.g);
 
 
         /*Changement du fond*/
@@ -544,18 +565,18 @@ class HomeView extends View {
             this.bState = false
 
         if (!this.gState)
-            this.g += 0.0005;
+            this.g += 0.0007;
         else if (!this.rState)
-            this.r += 0.0001;
+            this.r += 0.0005;
         else if (!this.bState)
-            this.b += 0.0007;
+            this.b += 0.001;
 
         if (this.rState)
-            this.r -= 0.0007;
+            this.r -= 0.001;
         else if (this.gState)
-            this.g -= 0.0001;
+            this.g -= 0.0005;
         else if (this.bState)
-            this.b -= 0.0005;
+            this.b -= 0.0007;
 
     }
 
