@@ -63,7 +63,7 @@ class HomeView extends View {
         newStyle.appendChild(document.createTextNode("\
         @font-face {\
             font-family: Mario;\
-            src: url('./font/Mario.TTF') \
+            src: url('./font/Mario.ttf') \
         }\
         "));
 
