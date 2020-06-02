@@ -195,21 +195,21 @@ class HomeView extends View {
                 finalColor = vec4(
                                     (iTmp == iteration ? 0.0 : float(float(iTmp)*cos(time*float(0.5))/float(10))),
                                     (iTmp == iteration ? 0.0 : float(iTmp)) / float(50.0),
-                                    cos(sqrt(float(iTmp)/float(iteration))*time)/float(3),
+                                    cos(sqrt(float(iTmp)/float(iteration))*time)/float(1.5),
                                     1
                                 );
             } else if(color.x < color.y && color.z < color.y){
                 
                 finalColor = vec4(
                     (iTmp == iteration ? 0.0 : float(iTmp)) / float(50.0),
-                    cos(sqrt(float(iTmp)/float(iteration))*time)/float(3),
+                    cos(sqrt(float(iTmp)/float(iteration))*time)/float(1.5),
                     (iTmp == iteration ? 0.0 : float(float(iTmp)*cos(time*float(0.5))/float(10))),
                     1
                 );
             } else {
                 
                 finalColor = vec4(
-                    cos(sqrt(float(iTmp)/float(iteration))*time)/float(3),
+                    cos(sqrt(float(iTmp)/float(iteration))*time)/float(1.5),
                     (iTmp == iteration ? 0.0 : float(float(iTmp)*cos(time*float(0.5))/float(10))),
                     (iTmp == iteration ? 0.0 : float(iTmp)) / float(50.0),
                     1
@@ -667,11 +667,11 @@ class HomeView extends View {
 
 
         /*Changement du fond*/
-        if (this.r > 0.50)
+        if (this.r > 0.75)
             this.rState = true
-        if (this.g > 0.50)
+        if (this.g > 0.75)
             this.gState = true
-        if (this.b > 0.50)
+        if (this.b > 0.75)
             this.bState = true
 
         if (this.r < 0)
