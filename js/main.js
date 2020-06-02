@@ -4,6 +4,8 @@ function isPowerOf2(value) {
     return (value & (value - 1)) == 0;
 }
 
+const PI = Math.PI
+
 class Home {
 
     constructor() {
@@ -90,9 +92,9 @@ class HomeView extends View {
 
         this.onResize()
 
-        this.r = 0.23;
-        this.g = 0.53;
-        this.b = 0.6;
+        this.r = (Math.random() * (0.75 - 0.1) + 0.1);
+        this.g = (Math.random() * (0.75 - 0.1) + 0.1);
+        this.b = (Math.random() * (0.75 - 0.1) + 0.1);
 
         this.rState = false;
         this.gState = true;
@@ -105,22 +107,117 @@ class HomeView extends View {
         uniform mat4 uModelViewMatrix;
         uniform mat4 uProjectionMatrix;
 
-        varying highp vec2 vTextureCoord;
+        varying highp vec2 UV;
 
         void main(void) {
             gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-            vTextureCoord = aTextureCoord;
+            UV = aTextureCoord;
         }
         `;
 
         this.fs = `
-        varying highp vec2 vTextureCoord;
+        varying highp vec2 UV;
 
-        uniform sampler2D uSampler;
         uniform mediump vec3 color;
+        uniform mediump float time;
 
-        void main(void) {
-            gl_FragColor = texture2D(uSampler, vTextureCoord) * vec4(color, 1.0);
+        const int iteration = 200;
+        const int scale 	= 400;
+
+        mediump float realJulia 		= -0.7269/*-0.8*/;
+        mediump float imaginaryJulia	=  0.1889/*0.156*/;
+
+        void main(){
+
+            mediump vec2 zTmp, z, cTmp;
+            mediump float border;
+            mediump vec4 finalColor;
+            int iTmp;
+
+            //We get the FragCoord and we divide it bit the viewport size to normalize the coord then we center them by removing 0.5
+            mediump vec2 c = UV - 0.5;
+
+            //Go Back to screenCoord by the window proportion
+            c.x *= float(1);
+
+            c *= float(5);
+
+            //Add The Zoom 
+            //c /= (1000)/10.0;
+
+
+
+            c *= float(1);
+
+            //Add the X and Y Offset
+            c += vec2(-0.5, 0);
+
+
+            z 			= c;
+            cTmp		= c;
+
+            /*Replace our complex component by our Julia values*/
+                z.x 	   +=0.5;
+                cTmp.x 	   +=0.5;
+                cTmp 		= vec2(realJulia,imaginaryJulia);
+
+
+            /*Multiply every part of our complex by a number between [-1:1] in function of the time*/
+
+                cTmp.x	   *= cos(time*0.02);
+                cTmp.x	   += sin(time*0.05);
+                cTmp.y	   *= sin(time*0.06);
+                cTmp.y	   += cos(time*0.08);
+
+
+
+            for(int i =0; i< iteration; i++){
+
+                /*Infinity limit*/
+                if((z.x*z.x) + (z.y*z.y) > float(20)){
+                    break;
+                }
+
+                /*Mandelbrot formula*/
+                mediump float x = z.x*z.x - z.y*z.y;
+                mediump float y = float(2) * z.x * z.y;
+
+                zTmp.x = x + cTmp.x;
+                zTmp.y = y + cTmp.y;		
+
+                z = zTmp;
+                iTmp = i;	
+            }
+
+
+            /*Color change by the time and the actual complexs*/
+            if(color.x < color.z && color.y < color.z){
+                finalColor = vec4(
+                                    (iTmp == iteration ? 0.0 : float(float(iTmp)*cos(time*float(0.5))/float(10))),
+                                    (iTmp == iteration ? 0.0 : float(iTmp)) / float(50.0),
+                                    cos(sqrt(float(iTmp)/float(iteration))*time)/float(3),
+                                    1
+                                );
+            } else if(color.x < color.y && color.z < color.y){
+                
+                finalColor = vec4(
+                    (iTmp == iteration ? 0.0 : float(iTmp)) / float(50.0),
+                    cos(sqrt(float(iTmp)/float(iteration))*time)/float(3),
+                    (iTmp == iteration ? 0.0 : float(float(iTmp)*cos(time*float(0.5))/float(10))),
+                    1
+                );
+            } else {
+                
+                finalColor = vec4(
+                    cos(sqrt(float(iTmp)/float(iteration))*time)/float(3),
+                    (iTmp == iteration ? 0.0 : float(float(iTmp)*cos(time*float(0.5))/float(10))),
+                    (iTmp == iteration ? 0.0 : float(iTmp)) / float(50.0),
+                    1
+                );
+
+            }
+
+            gl_FragColor = finalColor;
         }
         `;
 
@@ -146,7 +243,7 @@ class HomeView extends View {
                 projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
                 modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
                 squareColor: gl.getUniformLocation(shaderProgram, 'color'),
-                uSampler: gl.getUniformLocation(shaderProgram, 'uSampler'),
+                time: gl.getUniformLocation(shaderProgram, 'time'),
             },
         };
 
@@ -454,19 +551,38 @@ class HomeView extends View {
 
         mat4.translate(modelViewMatrix,     // destination matrix
             modelViewMatrix,     // matrix to translate
-            [-0.0, 0.0, -8.0]);  // amount to translate
-        mat4.rotate(modelViewMatrix,  // destination matrix
-            modelViewMatrix,  // matrix to rotate
-            this.squareRotation / 1.5,     // amount to rotate in radians
-            [0, 0, 1]);       // axis to rotate around (Z)
-        mat4.rotate(modelViewMatrix,  // destination matrix
-            modelViewMatrix,  // matrix to rotate
-            this.squareRotation / 1.5 * .512,// amount to rotate in radians
-            [0, 1, 0]);       // axis to rotate around (X)
-            mat4.rotate(modelViewMatrix,  // destination matrix
-                modelViewMatrix,  // matrix to rotate
-                this.squareRotation / 1.5 * .247,// amount to rotate in radians
-                [1, 0, 0]);
+            //[Math.sin(this.squareRotation * 0.356) * 3, Math.cos(this.squareRotation), -8.0]);  // amount to translate
+            [0.0, 0.0, -8.0]);  // amount to translate
+        
+            
+        /*mat4.rotate(modelViewMatrix,  
+            modelViewMatrix,  
+            this.squareRotation / 1.5,     
+            [0, 0, 1]);       
+        mat4.rotate(modelViewMatrix,  
+            modelViewMatrix,  
+            this.squareRotation / 1.5 * .512,
+            [0, 1, 0]);       
+        mat4.rotate(modelViewMatrix,  
+            modelViewMatrix,  
+            this.squareRotation / 1.5 * .247,
+            [1, 0, 0]);*/
+        
+
+        /*diamond rot*/
+        
+        mat4.rotate(modelViewMatrix,
+                modelViewMatrix,
+                PI/2,
+                [0, 1, 1]);
+
+        mat4.rotate(modelViewMatrix,
+            modelViewMatrix,
+            this.squareRotation/2,
+            [1, 1, 1]);
+
+
+
 
 
         // Tell WebGL how to pull out the positions from the position
@@ -546,7 +662,8 @@ class HomeView extends View {
         }
 
         this.squareRotation += deltaTime;
-        gl.uniform3f(programInfo.uniformLocations.squareColor, this.b, this.r, this.g);
+        gl.uniform3f(programInfo.uniformLocations.squareColor, this.b*1.5, this.r*1.5, this.g*1.5);
+        gl.uniform1f(programInfo.uniformLocations.time,this.squareRotation*2);
 
 
         /*Changement du fond*/
