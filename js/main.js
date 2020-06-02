@@ -118,24 +118,24 @@ class HomeView extends View {
         this.fs = `
         varying highp vec2 UV;
 
-        uniform mediump vec3 color;
-        uniform mediump float time;
+        uniform highp vec3 color;
+        uniform highp float time;
 
         const int iteration = 200;
         const int scale 	= 400;
 
-        mediump float realJulia 		= -0.7269/*-0.8*/;
-        mediump float imaginaryJulia	=  0.1889/*0.156*/;
+        highp float realJulia 		= -0.7269/*-0.8*/;
+        highp float imaginaryJulia	=  0.1889/*0.156*/;
 
         void main(){
 
-            mediump vec2 zTmp, z, cTmp;
-            mediump float border;
-            mediump vec4 finalColor;
+            highp vec2 zTmp, z, cTmp;
+            highp float border;
+            highp vec4 finalColor;
             int iTmp;
 
             //We get the FragCoord and we divide it bit the viewport size to normalize the coord then we center them by removing 0.5
-            mediump vec2 c = UV - 0.5;
+            highp vec2 c = UV - 0.5;
 
             //Go Back to screenCoord by the window proportion
             c.x *= float(1);
@@ -179,8 +179,8 @@ class HomeView extends View {
                 }
 
                 /*Mandelbrot formula*/
-                mediump float x = z.x*z.x - z.y*z.y;
-                mediump float y = float(2) * z.x * z.y;
+                highp float x = z.x*z.x - z.y*z.y;
+                highp float y = float(2) * z.x * z.y;
 
                 zTmp.x = x + cTmp.x;
                 zTmp.y = y + cTmp.y;		
