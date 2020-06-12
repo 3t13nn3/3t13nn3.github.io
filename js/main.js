@@ -118,24 +118,24 @@ class HomeView extends View {
         this.fs = `
         varying highp vec2 UV;
 
-        uniform highp vec3 color;
-        uniform highp float time;
+        uniform lowp vec3 color;
+        uniform lowp float time;
 
         const int iteration = 200;
         const int scale 	= 400;
 
-        highp float realJulia 		= -0.7269/*-0.8*/;
-        highp float imaginaryJulia	=  0.1889/*0.156*/;
+        lowp float realJulia 		= -0.7269/*-0.8*/;
+        lowp float imaginaryJulia	=  0.1889/*0.156*/;
 
         void main(){
 
-            highp vec2 zTmp, z, cTmp;
-            highp float border;
-            highp vec4 finalColor;
+            lowp vec2 zTmp, z, cTmp;
+            lowp float border;
+            lowp vec4 finalColor;
             int iTmp;
 
             //We get the FragCoord and we divide it bit the viewport size to normalize the coord then we center them by removing 0.5
-            highp vec2 c = UV - 0.5;
+            lowp vec2 c = UV - 0.5;
 
             //Go Back to screenCoord by the window proportion
             c.x *= float(1);
@@ -167,7 +167,7 @@ class HomeView extends View {
                 cTmp.x	   *= cos(time*0.02);
                 cTmp.x	   += sin(time*0.05);
                 cTmp.y	   *= sin(time*0.06);
-                cTmp.y	   += cos(time*0.08);
+                cTmp.y	   += tan(time*0.08);
 
 
 
@@ -566,7 +566,7 @@ class HomeView extends View {
         mat4.rotate(modelViewMatrix,  
             modelViewMatrix,  
             this.squareRotation / 1.5 * .247,
-            [1, 0, 0]);*/
+            [1, 0, 0]); */
         
 
         /*diamond rot*/
