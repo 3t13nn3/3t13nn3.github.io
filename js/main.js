@@ -164,17 +164,17 @@ class HomeView extends View {
 
             /*Multiply every part of our complex by a number between [-1:1] in function of the time*/
 
-                cTmp.x	   *= cos(time*0.02);
-                cTmp.x	   += sin(time*0.05);
-                cTmp.y	   *= sin(time*0.06);
-                cTmp.y	   += tan(time*0.08);
+                cTmp.x	   *= cos(time*0.002) *2.0;
+                cTmp.x	   += sin(time*0.005)*2.0;
+                cTmp.y	   *= sin(time*0.006)*2.0;
+                cTmp.y	   += tan(time*0.008)*2.0;
 
 
 
             for(int i =0; i< iteration; i++){
 
                 /*Infinity limit*/
-                if((z.x*z.x) + (z.y*z.y) > float(20)){
+                if(z.x*z.x + z.y*z.y > time * (time / sqrt(z.x*z.y+time))){ // if(z.x*z.x + z.y*z.y > 16.0 * (time / sqrt(z.x*z.y+1.0))){
                     break;
                 }
 
@@ -191,31 +191,32 @@ class HomeView extends View {
 
 
             /*Color change by the time and the actual complexs*/
-            if(color.x < color.z && color.y < color.z){
+            /*if(color.x < color.z && color.y < color.z){
                 finalColor = vec4(
-                                    (iTmp == iteration ? 0.0 : float(float(iTmp)*cos(time*float(0.5))/float(10))),
-                                    (iTmp == iteration ? 0.0 : float(iTmp)) / float(50.0),
-                                    cos(sqrt(float(iTmp)/float(iteration))*time)/float(1.5),
-                                    1
-                                );
+                    cos(sqrt(float(iTmp)/float(iteration)))/float(1.5),
+                    (iTmp == iteration ? 0.0 : float(float(iTmp)*cos(time*float(0.05))/float(10))),
+                    (iTmp == iteration ? 0.0 : float(iTmp)) / float(50.0),
+                    1
+                );
             } else if(color.x < color.y && color.z < color.y){
                 
                 finalColor = vec4(
                     (iTmp == iteration ? 0.0 : float(iTmp)) / float(50.0),
-                    cos(sqrt(float(iTmp)/float(iteration))*time)/float(1.5),
-                    (iTmp == iteration ? 0.0 : float(float(iTmp)*cos(time*float(0.5))/float(10))),
+                    cos(sqrt(float(iTmp)/float(iteration)))/float(1.5),
+                    (iTmp == iteration ? 0.0 : float(float(iTmp)*cos(time*float(0.05))/float(10))),
                     1
                 );
-            } else {
+            } else {*/
+                
                 
                 finalColor = vec4(
-                    cos(sqrt(float(iTmp)/float(iteration))*time)/float(1.5),
-                    (iTmp == iteration ? 0.0 : float(float(iTmp)*cos(time*float(0.5))/float(10))),
+                    (iTmp == iteration ? 0.0 : float(float(iTmp)*cos(time*float(0.05))/float(10))),
                     (iTmp == iteration ? 0.0 : float(iTmp)) / float(50.0),
+                    cos(sqrt(float(iTmp)/float(iteration)))/float(1.5),
                     1
                 );
 
-            }
+            //}
 
             gl_FragColor = finalColor;
         }
@@ -552,7 +553,7 @@ class HomeView extends View {
         mat4.translate(modelViewMatrix,     // destination matrix
             modelViewMatrix,     // matrix to translate
             //[Math.sin(this.squareRotation * 0.356) * 3, Math.cos(this.squareRotation), -8.0]);  // amount to translate
-            [0.0, 0.0, -8.0]);  // amount to translate
+            [0.0, 0.0, -0]);  // amount to translate
         
             
         /*mat4.rotate(modelViewMatrix,  
@@ -569,9 +570,17 @@ class HomeView extends View {
             [1, 0, 0]); */
         
 
+
+
+            /*mat4.rotate(modelViewMatrix,
+                modelViewMatrix,
+                this.squareRotation/10,
+                [0, 1, 0]);*/
+
+        
         /*diamond rot*/
         
-        mat4.rotate(modelViewMatrix,
+        /*mat4.rotate(modelViewMatrix,
                 modelViewMatrix,
                 PI/2,
                 [0, 1, 1]);
@@ -579,7 +588,7 @@ class HomeView extends View {
         mat4.rotate(modelViewMatrix,
             modelViewMatrix,
             this.squareRotation/2,
-            [1, 1, 1]);
+            [1, 1, 1]);*/
 
 
 
