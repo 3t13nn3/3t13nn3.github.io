@@ -84,24 +84,24 @@ When I'm away from the keyboard, I keep myself busy in different ways:
 
 ## My Config
 ```console
-❯ neofetch
-  	/\     	etienne@Noki
- 	/  \    	------------
-	/\   \   	OS: Arch Linux x86_64
-   /  	\  	Kernel: 6.1.12-arch1-1
-  /   ,,   \ 	Uptime: 3 hours, 13 mins
- /   |  |  -\	Packages: 906 (pacman)
-/_-''	''-_\   Shell: zsh 5.9
-             	Resolution: 4384x2466
-             	DE: GNOME 43.3
-             	WM: Mutter
-             	WM Theme: Adwaita
-             	Theme: Adwaita [GTK2/3]
-             	Icons: mcmojave-cursors [GTK2/3]
-             	Terminal: kitty
-             	CPU: AMD Ryzen 5 5600X (12) @ 3.700GHz
-             	GPU: NVIDIA GeForce RTX 3060 Ti
-             	Memory: 6772MiB / 15901MiB
+❯ neofetch                                          
+      /\         etienne@Noki 
+     /  \        ------------ 
+    /\   \       OS: Arch Linux x86_64 
+   /      \      Kernel: 6.1.12-arch1-1 
+  /   ,,   \     Uptime: 1 hour, 42 mins 
+ /   |  |  -\    Packages: 916 (pacman) 
+/_-''    ''-_\   Shell: zsh 5.9 
+                 Resolution: 4384x2466 
+                 DE: GNOME 43.3 
+                 WM: Mutter 
+                 WM Theme: Adwaita 
+                 Theme: Adwaita [GTK2/3] 
+                 Icons: mcmojave-cursors [GTK2/3] 
+                 Terminal: kitty 
+                 CPU: AMD Ryzen 5 5600X (12) @ 3.700GHz 
+                 GPU: NVIDIA GeForce RTX 3060 Ti 
+                 Memory: 8498MiB / 15901MiB 
 ```
 
 ## List of my langages preferences
