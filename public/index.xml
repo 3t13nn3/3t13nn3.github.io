@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>3t13nn3</title>
+    <link>https://3t13nn3.github.io/</link>
+    <description>Recent content on 3t13nn3</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 19 Feb 2023 00:00:00 +0100</lastBuildDate><atom:link href="https://3t13nn3.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Is Video Game Addiction a real thing?: My experience</title>
+      <link>https://3t13nn3.github.io/posts/videos-games-and-i/2/</link>
+      <pubDate>Sun, 19 Feb 2023 00:00:00 +0100</pubDate>
+      
+      <guid>https://3t13nn3.github.io/posts/videos-games-and-i/2/</guid>
+      <description>Video games are pretty fun aren&amp;rsquo;t they?</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://3t13nn3.github.io/posts/videos-games-and-i/2/featured.jpg" />
+    </item>
+    
+    <item>
+      <title>Games important to me</title>
+      <link>https://3t13nn3.github.io/posts/videos-games-and-i/1/</link>
+      <pubDate>Sat, 18 Feb 2023 22:00:00 +0100</pubDate>
+      
+      <guid>https://3t13nn3.github.io/posts/videos-games-and-i/1/</guid>
+      <description>Here are some games that have particularly marked me in my life (not necessarily in order of preference).</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://3t13nn3.github.io/posts/videos-games-and-i/1/featured.png" />
+    </item>
+    
+    <item>
+      <title>About Me</title>
+      <link>https://3t13nn3.github.io/about_me/</link>
+      <pubDate>Sat, 18 Feb 2023 19:00:00 +0100</pubDate>
+      
+      <guid>https://3t13nn3.github.io/about_me/</guid>
+      <description>Hey there!</description>
+      
+    </item>
+    
+  </channel>
+</rss>
