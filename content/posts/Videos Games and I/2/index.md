@@ -25,7 +25,7 @@ This was the time when my parents started to hide my controllers, giving me a pl
 
 #### *Wii* Era
 
-Christmas 2006, four year after *THE* Christmas. We were celebrating it at my grandparents place. My sister and I just received the brand new *Nintendo* console: the *Wii*. My parents really insisted that the console be shared between us because they knew very well about my relationship with video games. It was a really special moment. I really didn't expect to have it considering my behavior with video games in general. I was really hysterical! It had to be said that at the time, it was marketed as the console for everyone. The geeky kid was no longer the target, what was promoted to sell it was to move at the same time, to let off steam with *Wii Sports*!
+Christmas 2006, four years after *THE* Christmas. We were celebrating it at my grandparents place. My sister and I just received the brand new *Nintendo* console: the *Wii*. My parents really insisted that the console be shared between us because they knew very well about my relationship with video games. It was a really special moment. I really didn't expect to have it considering my behavior with video games in general. I was really hysterical! It had to be said that at the time, it was marketed as the console for everyone. The geeky kid was no longer the target, what was promoted to sell it was to move at the same time, to let off steam with *Wii Sports*!
 
 As one could expect, and as my parents hoped wouldn't happen: everything was the same. I lived for the Wii, breathed Wii, slept Wii, talked Wii. It was truly an obsession.
 
