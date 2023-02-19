@@ -65,8 +65,8 @@ We can be too much into something, according to different criteria. We can more 
 
 Finally, I think we need to look further than video games themselves for potential problems. What can push someone to play so much? Escaping reality? There are many young people who use video games as a means of escape. To change their ideas, nothing better than immersing themselves in another world? Avoiding Depression? I think everyone has their reasons and we should not always see it in a negative light.
 
-- A song echoes the last part of this conclusion to me:
+A song echoes the last part of this conclusion to me:
 {{< youtube id="-ODRCY1_k4M" title="What a song :)" >}}
 
-- And another one which is a classic for my French readers (Did you know that this song is by *Madeon*?):
+And another one which is a classic for my French readers (Did you know that this song is by *Madeon*?):
 {{< youtube id="MwiCLnlJeco" title="Meuporg" >}}
